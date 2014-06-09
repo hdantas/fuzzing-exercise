@@ -7,10 +7,11 @@ import string
 import sys
 import time
 
-USAGE_STR = 'generatefiles.py -n <nelem> -o <outputfile>'
+USAGE_STR = 'writefile.py -n <nelem> -l <lines> -o <outputfile>'
 N_ELEM = 20
 OUTPUT_FILE = 'output.txt'
 N_LINES = 1
+ENCODED = False
 
 def main():
     nelem = N_ELEM
@@ -40,8 +41,8 @@ def main():
 
     print "Wrote " + str(nlines) + " lines of " + str(nelem) + " chars to " + outputfile
 
-def writetofile(outputfile, nelem, nlines):
-    f = open(outputfile, 'a')
+def writetofile(outputfile, nelem, nlines, encoded = ENCODED):
+    f = open(outputfile, 'w')
 
     for n in range(nlines):
         text = ''
@@ -49,10 +50,12 @@ def writetofile(outputfile, nelem, nlines):
             text += random.choice(string.printable[:-5]) #generate printable text (exclude \t\n\r\x0b\x0c)
 
         length = str(len(text))
-        shasum = hashlib.sha1(text).hexdigest()
         utctime = time.strftime("%d%m%Y:%H%M%S", time.gmtime()) #UTC time, format "ddmmaaaa:HHMMSS"
+        shasum = hashlib.sha1(text + utctime).hexdigest()
 
         result = length + '\t' + text + '\t' + shasum + '\t' + utctime + '\n'
+        if encoded:
+            result = result.encode("hex")
         f.write(result)
 
 
