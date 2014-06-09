@@ -7,24 +7,25 @@ import string
 import sys
 import time
 
-USAGE_STR = 'writefile.py -n <nelem> -l <lines> -o <outputfile>'
+USAGE_STR = 'writefile.py -n <nelem> -l <lines> -o <outputfile> -e'
 N_ELEM = 20
 OUTPUT_FILE = 'output.txt'
 N_LINES = 1
-ENCODED = False
 
 def main():
     nelem = N_ELEM
     outputfile = OUTPUT_FILE
     nlines = N_LINES
-   
+    encoded = False
+
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"hn:l:o:",["help", "nelem=", "ofile=", "lines="])
+        opts, args = getopt.getopt(sys.argv[1:],"hen:l:o:",["help", "encoded", "nelem=", "ofile=", "lines="])
     except getopt.GetoptError as err:
         print str(err)
         print USAGE_STR
         sys.exit(2)
 
+    print "opts", opts
     for opt, arg in opts:
         if opt in ('-h', "--help"):
             print USAGE_STR
@@ -35,13 +36,19 @@ def main():
             nelem = int(arg)
         elif opt in ("-l", "--lines"):
             nlines = int(arg)
-
+        elif opt in ("-e", "--encoded"):
+            encoded = True
     
-    writetofile(outputfile, nelem, nlines)
+    print "outputfile", outputfile
+    print "nelem", nelem
+    print "nlines", nlines
+    print "encoded", encoded
+    
+    writetofile(outputfile, nelem, nlines, encoded)
 
     print "Wrote " + str(nlines) + " lines of " + str(nelem) + " chars to " + outputfile
 
-def writetofile(outputfile, nelem, nlines, encoded = ENCODED):
+def writetofile(outputfile, nelem, nlines, encoded):
     f = open(outputfile, 'w')
 
     for n in range(nlines):

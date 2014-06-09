@@ -8,13 +8,13 @@ import time
 
 USAGE_STR = 'readfile.py -i <inputfile>'
 INPUT_FILE = 'output.txt'
-ENCODED = False
 
 def main():
     inputfile = INPUT_FILE
-   
+    encoded = False
+
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"hi:",["help", "ifile="])
+        opts, args = getopt.getopt(sys.argv[1:],"hei:",["help", "encoded", "ifile="])
     except getopt.GetoptError as err:
         print str(err)
         print USAGE_STR
@@ -26,12 +26,14 @@ def main():
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputfile = arg
+        elif opt in ("-e", "--encoded"):
+            encoded = True
 
     print "Reading from " + inputfile
-    readfile(inputfile)
+    readfile(inputfile, encoded)
     
 
-def readfile(inputfile, encoded = ENCODED):
+def readfile(inputfile, encoded):
     if not os.path.isfile(inputfile):
         print "Can't find file " + inputfile + '\n'
         sys.exit(2)
