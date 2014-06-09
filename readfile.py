@@ -6,7 +6,7 @@ import os
 import sys
 import time
 
-USAGE_STR = 'readfile.py -i <inputfile>'
+USAGE_STR = 'readfile.py -i <inputfile> --encoded [if input file is encoded]'
 INPUT_FILE = 'output.txt'
 
 def main():

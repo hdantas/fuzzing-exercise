@@ -7,7 +7,7 @@ import string
 import sys
 import time
 
-USAGE_STR = 'writefile.py -n <nelem> -l <lines> -o <outputfile> -e'
+USAGE_STR = 'writefile.py -n <nelem> -l <lines> -o <outputfile> --encoded [hex encode output file]'
 N_ELEM = 20
 OUTPUT_FILE = 'output.txt'
 N_LINES = 1
