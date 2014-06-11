@@ -1,0 +1,1 @@
+Simple parser to help students understand what a fuzzer is and how to write one.
