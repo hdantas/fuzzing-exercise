@@ -29,7 +29,11 @@ class ReadFile:
         lines = f.readlines()
 
         if encoded:
-            lines = lines[0].decode("hex").splitlines()
+            try:
+                lines = lines[0].decode("hex").splitlines()
+            except:
+                print "Failed to parse.''"
+                return
 
         for line in lines:
 
