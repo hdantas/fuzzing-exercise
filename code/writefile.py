@@ -7,8 +7,8 @@ import string
 import sys
 import time
 
-USAGE_STR = 'writefile.py -n <nelem> -l <lines> -o <outputfile> --encoded [hex encode output file]'
-N_ELEM = 20
+USAGE_STR = 'writefile.py -n <nelem> -l <lines> -o <outputfile> --encoded [not hex encoded]'
+N_ELEM = 7
 OUTPUT_FILE = 'output.txt'
 N_LINES = 1
 
@@ -16,7 +16,7 @@ def main():
     nelem = N_ELEM
     outputfile = OUTPUT_FILE
     nlines = N_LINES
-    encoded = False
+    encoded = True
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],"hen:l:o:",["help", "encoded", "nelem=", "ofile=", "lines="])
@@ -25,7 +25,6 @@ def main():
         print USAGE_STR
         sys.exit(2)
 
-    print "opts", opts
     for opt, arg in opts:
         if opt in ('-h', "--help"):
             print USAGE_STR
@@ -37,7 +36,7 @@ def main():
         elif opt in ("-l", "--lines"):
             nlines = int(arg)
         elif opt in ("-e", "--encoded"):
-            encoded = True
+            encoded = not encoded
     
     print "outputfile", outputfile
     print "nelem", nelem
@@ -51,10 +50,21 @@ def main():
 def writetofile(outputfile, nelem, nlines, encoded):
     f = open(outputfile, 'w')
 
+
     for n in range(nlines):
         text = ''
-        for n in range(nelem):
-            text += random.choice(string.printable[:-5]) #generate printable text (exclude \t\n\r\x0b\x0c)
+        while n < nelem:
+            text += random.choice(string.ascii_uppercase)
+            text += random.choice(string.ascii_uppercase)
+            text += random.choice(string.ascii_uppercase + string.ascii_lowercase)
+            text += random.choice(string.digits)
+            text += random.choice(string.digits)
+            text += random.choice(string.digits)
+            text += random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits)
+            n += 7
+
+
+
 
         length = str(len(text))
         utctime = time.strftime("%d%m%Y:%H%M%S", time.gmtime()) #UTC time, format "ddmmaaaa:HHMMSS"

@@ -1,0 +1,7 @@
+Play with the tabs (it just checks there are 3, so it is easy to make it break due to accessing invalid index)
+Any of the columns is longer than 1337
+
+Easter eggs
+	The file has exactly 42 lines
+	The text is PWN1337
+
