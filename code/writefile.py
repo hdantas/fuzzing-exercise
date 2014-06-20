@@ -50,7 +50,6 @@ def main():
 def writetofile(outputfile, nelem, nlines, encoded):
     f = open(outputfile, 'w')
 
-
     for n in range(nlines):
         text = ''
         while n < nelem:
@@ -62,9 +61,6 @@ def writetofile(outputfile, nelem, nlines, encoded):
             text += random.choice(string.digits)
             text += random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits)
             n += 7
-
-
-
 
         length = str(len(text))
         utctime = time.strftime("%d%m%Y:%H%M%S", time.gmtime()) #UTC time, format "ddmmaaaa:HHMMSS"

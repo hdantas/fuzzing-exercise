@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://phed.org/2008/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://phed.org/2008/Peach ../peach.xsd" version="1.0"
+	author="Henrique Dantas" description="Hello World Example">
+
+	<Include ns="default" src="file:defaults.xml" />
+	<Import import="mychecksums" />
+	<Import import="myfilewriter" />
+
+	<DataModel name="line">
+		<String name="size">
+			<Relation type="size" of="text"/>
+		</String>
+		<String name="separator1" value="\t" mutable="False"/>
+		
+		<Block name="text">
+			<String name="text1" length="3" value="MRo"/>
+			<String name="text2" length="3" value="678">
+				<Hint name="NumericalString" value="true"/>
+			</String>
+			<String name="text3" length="1" value="9"/>
+		</Block>
+		<String name="separator2" value="\t" mutable="False"/>
+		
+		<String name="shasum" length="40">
+			<Fixup class="mychecksums.CheckSums">
+				<Param name="arg1" value="text"/>
+				<Param name="arg3" value="timestamp"/>
+			</Fixup>
+		</String>
+		<String name="separator3" value="\t" mutable="False"/>
+		
+		<Block name="timestamp" >
+			<String name="date" length="8" value="17062014">
+				<Hint name="NumericalString" value="true"/>
+			</String>
+			<String name="separator" value=":" mutable="False"/>
+			<String name="utctime" length="6" value="092445">
+				<Hint name="NumericalString" value="true"/>
+			</String>
+		</Block>
+		
+		<String name="separator4" value="\n" mutable="False"/>
+	</DataModel>
+
+	<StateModel name="State" initialState="State1">
+		<State name="State1">
+			
+			<!-- Write out contents of file.  The publisher attribute matches 
+			the name we provide for the publisher in the Test section. -->
+			<Action name="WriteFile" type="output" publisher="file">
+				<DataModel ref="line" />
+			</Action>
+			
+			<!-- Close file -->
+			<Action type="close" publisher="file" />
+
+		</State>
+	</StateModel>
+
+
+	<Test name="HelloWorldTest">
+		<StateModel ref="State"/>
+		<Publisher class="myfilewriter.FileWriter" name="file">
+			<Param name="fileName" value="fuzzfile.txt" />
+		</Publisher>
+	</Test>
+
+	<Run name="DefaultRun" description="Stdout HelloWorld Run">
+		<Test ref="HelloWorldTest"/>
+	</Run>
+
+</Peach>
+
